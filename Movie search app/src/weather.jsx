@@ -103,6 +103,7 @@ function App() {
           <p><strong>Genre:</strong> {selectedMovie.Genre}</p>
           <p><strong>Plot:</strong> {selectedMovie.Plot}</p>
           <p><strong>IMDB Rating:</strong> {selectedMovie.imdbRating}</p>
+          <p> Last commit</p>
         </div>
       )}
     </div>
