@@ -5,12 +5,14 @@ import {useMemo} from 'react'
 ChartJS.register(ArcElement,Tooltip,Legend);
 
 function ExpenseTracker(){
-    const [expenses,setExpenses]=useState([]);
+    const [Expenses,setExpenses]=useState([]);
     const [desc,setDesc]=useState("");
     const [amt,setAmt]=useState("");
     const [cat,setCAt]=useState("");
     const [type,setType]=useState("");
     const [filter,setFilter]= useState('All')
+const [theme, setTheme] = useState('light');
+
   // Load from localStorage on mount
     useEffect(()=>{
         const saved = localStorage.getItem('expenses');
@@ -34,6 +36,15 @@ const total = useMemo(()=>{ //usememo memorizes the computational result of comp
   },[expenses,filter]);
 
 
+const chartData= useMemo(()=>{
+  labels : ['food','Transport' , 'Entertainment'],
+  desserts:[{
+        data:[    expenses.filter(e => e.cat === 'Food').reduce((sum, e) => sum + e.amt, 0),
+      expenses.filter(e => e.cat === 'Transport').reduce((sum, e) => sum + e.amt, 0),
+      expenses.filter(e => e.cat === 'Entertainment').reduce((sum, e) => sum + e.amt, 0),
+    ] , backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+   }],
+}), [expenses]);
 
   const addExpense =()=>{
     if (!desc || !amt) return;
@@ -71,9 +82,11 @@ const total = useMemo(()=>{ //usememo memorizes the computational result of comp
     </li>
   ))}
 </ul>
-
+<Pie data={chartData} />
     </div>
   );
+
 }
+
 
 export default ExpenseTracker;
